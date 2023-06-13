@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-	// the user will be required to provide an email and password. the email will be used to verify that the user exists in our DB and the privided password will be checked against our hashed password for authentication
+	// the user will be required to provide an email and password. the email will be used to verify that the user exists in our DB and the provided password will be checked against our hashed password for authentication
 	const { email, password } = req.body;
 
 	const secret = process.env.SECRET;
