@@ -33,10 +33,11 @@ app.get(`${api_root}`, (req, res) => {
 // middleware
 app.use(json());
 app.use(morgan("combined"));
-app.use(cors());
-app.options("*", cors());
 app.use(authJwt());
 app.use(errHandler);
+// --> CORS accessbility middleware
+app.use(cors());
+app.options("*", cors());
 
 // --Router middlewares
 app.use(`${api_root}/products`, productRouter);
