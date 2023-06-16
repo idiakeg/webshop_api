@@ -41,6 +41,27 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+router.get("/get/count/", async (req, res) => {
+	try {
+		const userCount = await UserModel.countDocuments({});
+
+		if (!userCount) {
+			return res.status(404).json({
+				success: false,
+			});
+		}
+		res.status(200).json({
+			success: true,
+			userCount,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error,
+		});
+	}
+});
+
 router.post("/", async (req, res) => {
 	// obtain the desired field from the clients request
 	const {
