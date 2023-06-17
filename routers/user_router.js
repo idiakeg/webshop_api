@@ -67,7 +67,7 @@ router.post("/", async (req, res) => {
 	const {
 		name,
 		email,
-		passwordHash,
+		password,
 		phone,
 		isAdmin,
 		street,
@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
 		const user = await UserModel.create({
 			name,
 			email,
-			passwordHash: bcrypt.hashSync(passwordHash, 10),
+			passwordHash: bcrypt.hashSync(password, 10),
 			phone,
 			isAdmin,
 			street,
