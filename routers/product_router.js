@@ -12,7 +12,9 @@ router.get("/", async (req, res) => {
 			filter = { category: req.query.category.split(",") };
 		}
 		// the "select" method defines what info about the product should be available when a user visits this route. In this case, we have limited it to just the "name" and "description". If the user wants to get more information about the product, tey would have to visit the route for the particular product i.e /:id
-		const productList = await ProductModel.find({}).select("name description");
+		const productList = await ProductModel.find(filter).select(
+			"name description"
+		);
 		if (!productList) {
 			return res.status(501).json({
 				success: false,
