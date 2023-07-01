@@ -33,7 +33,10 @@ router.get("/:id", async (req, res) => {
 		// obtain the id
 		const { id } = req.params;
 		const order = await OrderModel.findOne({ _id: id }).populate([
-			"OrderItems",
+			{
+				path: "OrderItems",
+				populate: { path: "product", populate: "category" },
+			},
 			{ path: "user", select: "name email" },
 		]);
 		if (!order) {
