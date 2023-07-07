@@ -128,4 +128,40 @@ router.post("/", async (req, res) => {
 	}
 });
 
+router.put("/:id", async (req, res) => {
+	try {
+		const { id } = req.params;
+		// check if order with specified Id exists
+		const order = await OrderModel.findById(id);
+		if (!order) {
+			return res.status(404).json({
+				success: false,
+				message: "Order does not exist!",
+			});
+		}
+
+		// obtain  the data to be changed
+		const { status } = req.body;
+
+		// update the order with the info provided
+		const updatedOrder = await OrderModel.findByIdAndUpdate(
+			id,
+			{ status },
+			{ new: true }
+		);
+
+		res.status(200).json({
+			success: true,
+			order: updatedOrder,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error,
+		});
+	}
+});
+
+// create a put route to change the status of the order when it is made. Also make a route to delete an order by Id.
+
 module.exports = router;
