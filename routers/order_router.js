@@ -162,6 +162,53 @@ router.put("/:id", async (req, res) => {
 	}
 });
 
-// create a put route to change the status of the order when it is made. Also make a route to delete an order by Id.
+router.get("/get/count", async (req, res) => {
+	try {
+		const orderCount = await OrderModel.countDocuments({});
+		if (!orderCount) {
+			return res.status(200).json({
+				success: false,
+				message: "Could not obtain count!",
+			});
+		}
+
+		res.status(200).json({
+			success: false,
+			orderCount,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error,
+		});
+	}
+});
+
+router.delete("/:id", async (req, res) => {
+	try {
+		const { id } = req.params;
+		const orderToBeDeleted = await OrderModel.findByIdAndDelete(id);
+		if (!orderToBeDeleted) {
+			return res.status(404).json({
+				success: false,
+				message: "Order does not exist!",
+			});
+		}
+
+		orderToBeDeleted.OrderItems.map(async (orderItem) => {
+			await OrderItemsModel.findByIdAndDelete(orderItem);
+		});
+
+		res.status(200).json({
+			success: true,
+			message: "order deleted successfully!",
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error,
+		});
+	}
+});
 
 module.exports = router;
